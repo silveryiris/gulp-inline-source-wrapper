@@ -1,48 +1,61 @@
-import { inlineSource } from "inline-source"
-import path from "path"
-import through from "through2"
-import PluginError from "plugin-error"
-import { packageInfo } from "./package.json"
+"use strict";
 
-export function inlineSourceWrapper( options ) {
-  const stream = through.obj( async ( file, enc, cb ) => {
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.inlineSourceWrapper = inlineSourceWrapper;
+exports.default = void 0;
 
-    const self = this
+var _inlineSource = require("inline-source");
 
-    if ( file.isNull() || file.isDirectory() ) {
-      this.push( file )
-      return cb()
+var _path = _interopRequireDefault(require("path"));
+
+var _through = _interopRequireDefault(require("through2"));
+
+var _pluginError = _interopRequireDefault(require("plugin-error"));
+
+var _package = require("./package.json");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function inlineSourceWrapper(options) {
+  const stream = _through.default.obj(async (file, enc, cb) => {
+    const self = this;
+
+    if (file.isNull() || file.isDirectory()) {
+      this.push(file);
+      return cb();
     }
 
-    if ( file.isStream() ) {
-      this.emit( 'error', new PluginError( packageInfo.name, 'Streaming not supported' ) )
-      return cb()
+    if (file.isStream()) {
+      this.emit('error', new _pluginError.default(_package.packageInfo.name, 'Streaming not supported'));
+      return cb();
     }
 
     const pluginOptions = {
-      "rootpath": path.dirname( file.path ),
+      "rootpath": _path.default.dirname(file.path),
       "htmlpath": file.path
-    }
+    };
 
-    if ( options ) {
-      for ( const optKey in options ) {
-        pluginOptions[ optKey ] = options[ optKey ]
+    if (options) {
+      for (const optKey in options) {
+        pluginOptions[optKey] = options[optKey];
       }
     }
 
     try {
-      const html = await inlineSource( file.contents.toString(), pluginOptions )
-      file.contents = new Buffer( html || "" )
-      self.push( file )
-    } catch ( err ) {
-      self.emit( 'error', new PluginError( packageInfo.name, err ) )
+      const html = await (0, _inlineSource.inlineSource)(file.contents.toString(), pluginOptions);
+      file.contents = new Buffer(html || "");
+      self.push(file);
+    } catch (err) {
+      self.emit('error', new _pluginError.default(_package.packageInfo.name, err));
     }
 
-    cb()
+    cb();
+  });
 
-  } )
-
-  return stream
+  return stream;
 }
 
-export default inlineSourceWrapper
+var _default = inlineSourceWrapper;
+exports.default = _default;
