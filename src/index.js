@@ -5,6 +5,7 @@ import PluginError from "plugin-error"
 import { packageInfo } from "./package.json"
 
 export function inlineSourceWrapper( options = {} ) {
+  
   const stream = through.obj( async ( file, enc, cb ) => {
 
     if ( file.isNull() || file.isDirectory() ) {
