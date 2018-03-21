@@ -18,7 +18,7 @@ var _package = require("./package.json");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function inlineSourceWrapper(options) {
+function inlineSourceWrapper(options = {}) {
   const stream = _through.default.obj(async (file, enc, cb) => {
     if (file.isNull() || file.isDirectory()) {
       stream.push(file);
@@ -30,16 +30,13 @@ function inlineSourceWrapper(options) {
       return cb();
     }
 
-    const pluginOptions = {
+    const defaultOptions = {
       "rootpath": _path.default.dirname(file.path),
       "htmlpath": file.path
     };
-
-    if (options) {
-      for (const optKey in options) {
-        pluginOptions[optKey] = options[optKey];
-      }
-    }
+    const pluginOptions = { ...defaultOptions,
+      ...options
+    };
 
     try {
       const html = await (0, _inlineSource.inlineSource)(file.contents.toString(), pluginOptions);

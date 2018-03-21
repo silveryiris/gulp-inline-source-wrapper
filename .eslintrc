@@ -4,10 +4,13 @@
         "node": true,
         "es6": true
     },
-    "parserOptions": {
-        "sourceType": "module",
-        "ecmaVersion": 2017
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2017,
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
     },
+  },
     "extends": "eslint:recommended",
     "rules": {
       "no-console": 0

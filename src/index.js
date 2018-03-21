@@ -4,7 +4,7 @@ import through from "through2"
 import PluginError from "plugin-error"
 import { packageInfo } from "./package.json"
 
-export function inlineSourceWrapper( options ) {
+export function inlineSourceWrapper( options = {} ) {
   const stream = through.obj( async ( file, enc, cb ) => {
 
     if ( file.isNull() || file.isDirectory() ) {
@@ -17,16 +17,12 @@ export function inlineSourceWrapper( options ) {
       return cb()
     }
 
-    const pluginOptions = {
+    const defaultOptions = {
       "rootpath": path.dirname( file.path ),
       "htmlpath": file.path
     }
 
-    if ( options ) {
-      for ( const optKey in options ) {
-        pluginOptions[ optKey ] = options[ optKey ]
-      }
-    }
+    const pluginOptions = { ...defaultOptions, ...options }
 
     try {
       const html = await inlineSource( file.contents.toString(), pluginOptions )
