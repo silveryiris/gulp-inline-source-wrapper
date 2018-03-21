@@ -9,5 +9,14 @@ Something you may interest
 ( Sorry for not make tests first , but I'm in the middle of company projects... )
 - Will only test and fix bugs for `Node` version 8 and future versions.
 
+This package is wrap the `inline-source` with stream to work with the `gulp 4` .
+
 ### Installing
-W.I.P.
+
+```
+npm i gulp-inline-source-wrapper
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
