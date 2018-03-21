@@ -7,15 +7,13 @@ import { packageInfo } from "./package.json"
 export function inlineSourceWrapper( options ) {
   const stream = through.obj( async ( file, enc, cb ) => {
 
-    const self = this
-
     if ( file.isNull() || file.isDirectory() ) {
-      this.push( file )
+      stream.push( file )
       return cb()
     }
 
     if ( file.isStream() ) {
-      this.emit( 'error', new PluginError( packageInfo.name, 'Streaming not supported' ) )
+      stream.emit( 'error', new PluginError( packageInfo.name, 'Streaming not supported' ) )
       return cb()
     }
 
@@ -33,12 +31,11 @@ export function inlineSourceWrapper( options ) {
     try {
       const html = await inlineSource( file.contents.toString(), pluginOptions )
       file.contents = new Buffer( html || "" )
-      self.push( file )
+      stream.push( file )
+      cb()
     } catch ( err ) {
-      self.emit( 'error', new PluginError( packageInfo.name, err ) )
+      stream.emit( 'error', new PluginError( packageInfo.name, err ) )
     }
-
-    cb()
 
   } )
 

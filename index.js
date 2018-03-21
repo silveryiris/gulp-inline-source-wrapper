@@ -20,15 +20,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function inlineSourceWrapper(options) {
   const stream = _through.default.obj(async (file, enc, cb) => {
-    const self = this;
-
     if (file.isNull() || file.isDirectory()) {
-      this.push(file);
+      stream.push(file);
       return cb();
     }
 
     if (file.isStream()) {
-      this.emit('error', new _pluginError.default(_package.packageInfo.name, 'Streaming not supported'));
+      stream.emit('error', new _pluginError.default(_package.packageInfo.name, 'Streaming not supported'));
       return cb();
     }
 
@@ -46,12 +44,11 @@ function inlineSourceWrapper(options) {
     try {
       const html = await (0, _inlineSource.inlineSource)(file.contents.toString(), pluginOptions);
       file.contents = new Buffer(html || "");
-      self.push(file);
+      stream.push(file);
+      cb();
     } catch (err) {
-      self.emit('error', new _pluginError.default(_package.packageInfo.name, err));
+      stream.emit('error', new _pluginError.default(_package.packageInfo.name, err));
     }
-
-    cb();
   });
 
   return stream;
