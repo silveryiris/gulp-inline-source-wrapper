@@ -1,5 +1,7 @@
 # gulp-inline-source-wrapper
 
+[![david-dm](https://david-dm.org/silveryiris/gulp-inline-source-wrapper.svg)](https://david-dm.org/silveryiris/gulp-inline-source-wrapper)
+
 ## Getting Started
 
 Something you may interest
