@@ -30,13 +30,13 @@ function inlineSourceWrapper(options = {}) {
     }
 
     if (file.isStream()) {
-      stream.emit('error', new _pluginError.default(_package.packageInfo.name, 'Streaming not supported'));
+      stream.emit("error", new _pluginError.default(_package.packageInfo.name, "Streaming not supported"));
       return cb();
     }
 
     const defaultOptions = {
-      "rootpath": _path.default.dirname(file.path),
-      "htmlpath": file.path
+      rootpath: _path.default.dirname(file.path),
+      htmlpath: file.path
     };
 
     const pluginOptions = _objectSpread({}, defaultOptions, options);
@@ -47,7 +47,7 @@ function inlineSourceWrapper(options = {}) {
       stream.push(file);
       cb();
     } catch (err) {
-      stream.emit('error', new _pluginError.default(_package.packageInfo.name, err));
+      stream.emit("error", new _pluginError.default(_package.packageInfo.name, err));
     }
   });
 

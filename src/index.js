@@ -4,37 +4,34 @@ import through from "through2"
 import PluginError from "plugin-error"
 import { packageInfo } from "./package.json"
 
-export function inlineSourceWrapper( options = {} ) {
-  
-  const stream = through.obj( async ( file, enc, cb ) => {
-
-    if ( file.isNull() || file.isDirectory() ) {
-      stream.push( file )
+export function inlineSourceWrapper(options = {}) {
+  const stream = through.obj(async (file, enc, cb) => {
+    if (file.isNull() || file.isDirectory()) {
+      stream.push(file)
       return cb()
     }
 
-    if ( file.isStream() ) {
-      stream.emit( 'error', new PluginError( packageInfo.name, 'Streaming not supported' ) )
+    if (file.isStream()) {
+      stream.emit("error", new PluginError(packageInfo.name, "Streaming not supported"))
       return cb()
     }
 
     const defaultOptions = {
-      "rootpath": path.dirname( file.path ),
-      "htmlpath": file.path
+      rootpath: path.dirname(file.path),
+      htmlpath: file.path
     }
 
     const pluginOptions = { ...defaultOptions, ...options }
 
     try {
-      const html = await inlineSource( file.contents.toString(), pluginOptions )
-      file.contents = new Buffer( html || "" )
-      stream.push( file )
+      const html = await inlineSource(file.contents.toString(), pluginOptions)
+      file.contents = new Buffer(html || "")
+      stream.push(file)
       cb()
-    } catch ( err ) {
-      stream.emit( 'error', new PluginError( packageInfo.name, err ) )
+    } catch (err) {
+      stream.emit("error", new PluginError(packageInfo.name, err))
     }
-
-  } )
+  })
 
   return stream
 }
