@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "babel ./src/index.js --out-file ./index.js",
-    "build:test": "minify ./src/index.js --out-file ./index.js",
     "prepare": "npm run build",
-    "test": "jest"
   },
   "repository": {
     "type": "git",
