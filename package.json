@@ -1,6 +1,6 @@
 {
   "name": "gulp-inline-source-wrapper",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "gulp warpper for inline-source package",
   "main": "index.js",
   "scripts": {
