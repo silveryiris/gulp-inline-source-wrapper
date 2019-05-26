@@ -4,12 +4,12 @@
       "@babel/preset-env",
       {
         "debug": false,
+        "modules": false,
         "targets": {
-          "node": "8"
+          "node": "10"
         }
       }
-    ],
-    "minify"
+    ]
   ],
   "comments": false,
   "env": {
