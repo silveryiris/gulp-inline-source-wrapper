@@ -4,15 +4,12 @@
 
 ## About this project
 
-- Source codes style is `ES2017` syntax and compiled with `@babel/cli`.
+- Source codes style is `ES2017` syntax compiled to `esm` and `cjs` version.
 - Dependencies only 3 packages with latest stable version.
-- Will only test and fix bugs for `Node` version 8 LTS and future versions.
 - This project is wrap the `inline-source` package with stream to adapt the `gulp@4`.
-- Will maintain the dependncies regularly.
 
 ## To do
-- Tested with `jest` and rewrited test cases. 
-- Choose between esm version or compiled commonjs version on import
+- Rewrite test cases. 
 
 ## Installing
 
