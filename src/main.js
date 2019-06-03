@@ -26,7 +26,7 @@ export function inlineSourceWrapper(options = {}) {
 
     try {
       const html = await inlineSource(file.contents.toString(), pluginOptions)
-      file.contents = new Buffer(html || "")
+      file.contents = new Buffer.from(html || "")
       stream.push(file)
       cb()
     } catch (err) {
