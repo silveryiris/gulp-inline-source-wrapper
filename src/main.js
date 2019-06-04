@@ -1,36 +1,30 @@
 import { inlineSource } from "inline-source"
 import path from "path"
 import through from "through2"
-import PluginError from "plugin-error"
-
-const PROJECT_NAME = "gulp-inline-source-wrapper"
+import GulpInlineSourceWrapperError from "./error.js"
 
 export function inlineSourceWrapper(options = {}) {
-  const stream = through.obj(async (file, enc, cb) => {
-    if (file.isNull() || file.isDirectory()) {
-      stream.push(file)
-      return cb()
-    }
-
-    if (file.isStream()) {
-      stream.emit("error", new PluginError(PROJECT_NAME, "Streaming not supported"))
-      return cb()
-    }
-
-    const defaultOptions = {
-      rootpath: path.dirname(file.path),
-      htmlpath: file.path
-    }
-
-    const pluginOptions = { ...defaultOptions, ...options }
-
+  const stream = through.obj(async (chunk, _, cb) => {
     try {
-      const html = await inlineSource(file.contents.toString(), pluginOptions)
-      file.contents = new Buffer.from(html || "")
-      stream.push(file)
-      cb()
+      // Passthrogh
+      if (chunk.isNull() || chunk.isDirectory()) {
+        return cb(null, chunk)
+      } else if (chunk.isStream()) {
+        return cb(new GulpInlineSourceWrapperError("Chunk as Stream is not supported"))
+      }
+
+      const defaultOptions = {
+        rootpath: path.dirname(chunk.path),
+        htmlpath: chunk.path
+      }
+
+      const pluginOptions = { ...defaultOptions, ...options }
+
+      const html = await inlineSource(chunk.contents.toString(), pluginOptions)
+      chunk.contents = new Buffer.from(html || "")
+      cb(null, chunk)
     } catch (err) {
-      stream.emit("error", new PluginError(PROJECT_NAME, err))
+      return cb(new GulpInlineSourceWrapperError(err))
     }
   })
 
