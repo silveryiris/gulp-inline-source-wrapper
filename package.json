@@ -5,6 +5,7 @@
   "main": "dist/main.cjs.js",
   "module": "dist/main.esm.js",
   "scripts": {
+    "test": "mocha -r esm",
     "build": "rimraf ./dist/** && rollup -c",
     "prepack": "npm run build"
   },
@@ -29,15 +30,18 @@
   },
   "dependencies": {
     "inline-source": "^6.1.10",
-    "plugin-error": "^1.0.1",
     "through2": "^3.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
+    "chai": "^4.2.0",
+    "esm": "^3.2.25",
+    "mocha": "^6.1.4",
     "rimraf": "^2.6.3",
-    "rollup": "^1.12.3",
+    "rollup": "^1.13.1",
     "rollup-plugin-babel": "^4.3.2",
-    "terser": "^4.0.0"
+    "terser": "^4.0.0",
+    "vinyl": "^2.2.0"
   }
 }
