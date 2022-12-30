@@ -37,7 +37,7 @@
     "@babel/preset-env": "^7.5.4",
     "chai": "^4.2.0",
     "esm": "^3.2.25",
-    "mocha": "^6.1.4",
+    "mocha": "^10.2.0",
     "rimraf": "^2.6.3",
     "rollup": "^1.16.7",
     "rollup-plugin-babel": "^4.3.3",
